@@ -13,15 +13,11 @@ class BindingServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $caching = env('CACHING', false);
-        if ($caching) {
-            $getFrom = 'cache';
-        } else {
-            $getFrom = 'direct';
-        }
+        $caching = config('env.CACHING', false);
+        $getFrom = $caching ? 'cache' : 'direct';
         $binds = config('binding');
-        foreach ($binds as $intefaces) {
-            $this->app->bind($intefaces['interface'], $intefaces[$getFrom]);
+        foreach ($binds as $interfaces) {
+            $this->app->bind($interfaces['interface'], $interfaces[$getFrom]);
         }
     }
 
