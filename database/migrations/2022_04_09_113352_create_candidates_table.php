@@ -15,6 +15,12 @@ class CreateCandidatesTable extends Migration
     {
         Schema::create('candidates', function (Blueprint $table) {
             $table->id();
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->string('position');
+            $table->decimal('min_salary')->nullable();
+            $table->decimal('max_salary')->nullable();
+            $table->string('linkedin_url')->nullable();
             $table->timestamps();
         });
     }

@@ -15,7 +15,12 @@ class CreateCandidateSkillsTable extends Migration
     {
         Schema::create('candidate_skills', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->unsignedBigInteger('candidate_id');
+            $table->foreign('candidate_id')
+                ->references('id')
+                ->on('candidates')
+                ->onDelete('cascade');
+            $table->string('skill');
         });
     }
 

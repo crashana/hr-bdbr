@@ -15,6 +15,13 @@ class CreateCandidateStatusesTable extends Migration
     {
         Schema::create('candidate_statuses', function (Blueprint $table) {
             $table->id();
+
+            $table->unsignedBigInteger('candidate_id');
+            $table->foreign('candidate_id')
+                ->references('id')
+                ->on('candidates')
+                ->onDelete('cascade');
+            $table->integer('is_current')->default(0);
             $table->string('status');
             $table->longText('comment');
             $table->timestamps();

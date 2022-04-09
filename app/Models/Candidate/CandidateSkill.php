@@ -4,17 +4,14 @@ namespace App\Models\Candidate;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CandidateStatus extends Model
+class CandidateSkill extends Model
 {
 
-    public $table = 'candidates';
+    public $table = 'candidate_skills';
     public $timestamps = false;
 
     protected $fillable = [
         'candidate_id',
-        'is_current',
-        'status',
-        'comment',
+        'skill',
     ];
-
 }

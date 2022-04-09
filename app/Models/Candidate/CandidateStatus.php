@@ -4,20 +4,16 @@ namespace App\Models\Candidate;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Candidate extends Model
+class CandidateStatus extends Model
 {
 
-    public $table = 'candidates';
-    public $timestamps = false;
+    public $table = 'candidate_statuses';
+    public $timestamps = true;
 
     protected $fillable = [
-        'first_name',
-        'last_name',
-        'position',
-        'min_salary',
-        'max_salary',
-        'linkedin_url',
+        'candidate_id',
+        'is_current',
+        'status',
+        'comment',
     ];
-
-    
 }

@@ -1,23 +1,38 @@
 <?php
 
-namespace App\Models\Locales;
+namespace App\Models\Candidate;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Activitylog\Traits\LogsActivity;
 
-class Locales extends Model
+class Candidate extends Model
 {
-    use LogsActivity;
 
-    public $table = 'locales';
-    public $timestamps = false;
+    public $table = 'candidates';
+    public $timestamps = true;
 
     protected $fillable = [
-        'locale',
-        'title',
-        'active',
-        'default',
+        'first_name',
+        'last_name',
+        'position',
+        'min_salary',
+        'max_salary',
+        'linkedin_url',
     ];
+    protected $appends = ['current_status'];
 
-    protected static $logFillable = true;
+    public function skills()
+    {
+        return $this->hasMany(CandidateSkill::class);
+    }
+
+    public function statuses()
+    {
+        return $this->hasMany(CandidateStatus::class)
+            ->orderBy('created_at', 'DESC');
+    }
+
+    public function getCurrentStatusAttribute()
+    {
+        return $this->statuses->where('is_current', 1);
+    }
 }
