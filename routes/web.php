@@ -13,6 +13,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('Pages.blank');
+Route::group([
+    'prefix' => '/',
+    'as' => 'candidate.',
+    'namespace' => 'App\Http\Controllers\Candidates'
+], function () {
+
+    Route::get('/', [
+        'uses' => 'CandidateController@index',
+        'as' => 'index']);
+
+    Route::get('/datatable', [
+        'uses' => 'CandidateController@datatable',
+        'as' => 'datatable']);
+
+    Route::post('/get', [
+        'uses' => 'CandidateController@get',
+        'as' => 'get']);
+
+
+    Route::post('/store', [
+        'uses' => 'CandidateController@store',
+        'as' => 'store']);
 });
