@@ -23,7 +23,7 @@ class CreateCandidateStatusesTable extends Migration
                 ->onDelete('cascade');
             $table->integer('is_current')->default(0);
             $table->string('status');
-            $table->longText('comment');
+            $table->longText('comment')->nullable();
             $table->timestamps();
         });
     }

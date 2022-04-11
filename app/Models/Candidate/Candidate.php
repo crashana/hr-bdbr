@@ -2,10 +2,14 @@
 
 namespace App\Models\Candidate;
 
+use App\Models\Media\Media;
+use App\Traits\HasMediaTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Candidate extends Model
 {
+
+    use HasMediaTrait;
 
     public $table = 'candidates';
     public $timestamps = true;
@@ -19,6 +23,7 @@ class Candidate extends Model
         'linkedin_url',
     ];
     protected $appends = ['current_status'];
+    protected $with = ['skills', 'documents'];
 
     public function skills()
     {
@@ -33,6 +38,14 @@ class Candidate extends Model
 
     public function getCurrentStatusAttribute()
     {
-        return $this->statuses->where('is_current', 1);
+        $status = $this->statuses->where('is_current', 1)->last();
+        return $status ? $status->status : '';
+    }
+
+
+    public function documents()
+    {
+        return $this->morphMany(Media::class, 'media')
+            ->where('collection_name', 'document');
     }
 }
