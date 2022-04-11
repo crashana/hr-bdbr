@@ -505,9 +505,7 @@
 
 <script src="{{asset('assets/js/datagrid/datatables/datatables.bundle.js')}}"></script>
 <script src="{{asset('/assets/js/jquery.validate.min.js')}}"></script>
-@if(App::getLocale() == 'ka')
-    <script src="{{asset('assets/js/jquery.validate.ka.js')}}"></script>
-@endif
+<script src="{{asset('assets/js/jquery.validate.ka.js')}}"></script>
 <script src="{{ asset('assets/js/formplugins/select2/select2.bundle.js') }}"></script>
 <script src="{{asset('assets/js/notifications/sweetalert2/sweetalert2.bundle.js')}}"></script>
 <script src="{{asset('assets/js/notifications/toastr/toastr.js')}}"></script>
