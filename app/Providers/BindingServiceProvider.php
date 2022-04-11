@@ -13,8 +13,9 @@ class BindingServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $caching = config('env.CACHING', false);
+        $caching = config('env.caching', false);
         $getFrom = $caching ? 'cache' : 'direct';
+
         $binds = config('binding');
         foreach ($binds as $interfaces) {
             $this->app->bind($interfaces['interface'], $interfaces[$getFrom]);
