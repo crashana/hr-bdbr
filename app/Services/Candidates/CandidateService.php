@@ -17,8 +17,7 @@ class CandidateService extends MainService
     public function __construct(
         CandidateRepoInterface $candidateRepo,
         MediaService           $mediaService
-    )
-    {
+    ) {
         $this->candidateRepo = $candidateRepo;
         $this->mediaService = $mediaService;
     }

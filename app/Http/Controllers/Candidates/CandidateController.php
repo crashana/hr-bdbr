@@ -79,7 +79,6 @@ class CandidateController extends Controller
             return $this->response(null, true, 'skill წარმატებით წაიშალა!');
         }
         return $this->response(null, false, 'დაფიქსირდა შეცდომა!');
-
     }
 
     public function changeStatus(Request $request)
@@ -92,7 +91,7 @@ class CandidateController extends Controller
 
         $candidate = $this->candidateService->get($request->candidate_id);
 
-        if ($candidate->current_status == $request->status){
+        if ($candidate->current_status == $request->status) {
             return $this->response(null, false, 'სტატუსის ცვლილება შეუძლებელია!');
         }
 

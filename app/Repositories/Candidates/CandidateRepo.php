@@ -116,7 +116,8 @@ class CandidateRepo implements CandidateRepoInterface
             [
                 'candidate_id' => $candidate->id,
                 'skill' => $skill,
-            ]);
+            ]
+        );
     }
 
     public function deleteSkill(Candidate $candidate, string $skill)
@@ -126,7 +127,7 @@ class CandidateRepo implements CandidateRepoInterface
 
     public function getStatuses()
     {
-       return CandidateStatus::STATUSES;
+        return CandidateStatus::STATUSES;
     }
 
     public function clearCache()

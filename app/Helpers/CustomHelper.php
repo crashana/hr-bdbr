@@ -2,7 +2,7 @@
 
 function formatDate($dateTime)
 {
-    $splitTimeStamp = explode("-", explode(' ',$dateTime)[0]);
+    $splitTimeStamp = explode("-", explode(' ', $dateTime)[0]);
     $year = $splitTimeStamp[0];
     $month = $splitTimeStamp[1];
     $day = $splitTimeStamp[2];
