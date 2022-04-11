@@ -11,9 +11,14 @@ use App\Models\Candidate\Candidate;
 class CandidateRepo implements CandidateRepoInterface
 {
 
-    public function get(int $id): Candidate
+    public function getAll()
     {
-        return Candidate::findOrFail($id);
+        return Candidate::get();
+    }
+
+    public function get(int $id)
+    {
+        return Candidate::find($id);
     }
 
     public function dataTable(ParameterBag $params)

@@ -19,7 +19,19 @@ class CandidateCacheRepo implements CandidateRepoInterface
         $this->candidateRepo = $candidateRepo;
     }
 
-    public function get(int $id): Candidate
+    public function getAll()
+    {
+        return $this->remember(
+            'candidates',
+            ['all'],
+            600,
+            function () {
+                return $this->candidateRepo->getAll();
+            }
+        );
+    }
+
+    public function get(int $id)
     {
         return $this->remember(
             'candidate',

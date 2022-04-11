@@ -10,7 +10,9 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 interface CandidateRepoInterface
 {
 
-    public function get(int $id): Candidate;
+    public function getAll();
+
+    public function get(int $id);
 
     public function dataTable(ParameterBag $params);
 

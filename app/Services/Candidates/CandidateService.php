@@ -22,6 +22,12 @@ class CandidateService extends MainService
         $this->mediaService = $mediaService;
     }
 
+
+    public function getAll()
+    {
+        return $this->candidateRepo->getAll();
+    }
+
     public function get(int $id)
     {
         return $this->candidateRepo->get($id);
