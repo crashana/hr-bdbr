@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Candidates;
 
+use App\Models\Candidate\CandidateSkill;
 use App\Models\Candidate\CandidateStatus;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use App\Classes\DataTable;
@@ -103,6 +104,25 @@ class CandidateRepo implements CandidateRepoInterface
         ]);
     }
 
+
+    public function createSkill(Candidate $candidate, string $skill): CandidateSkill
+    {
+
+        return CandidateSkill::updateOrCreate(
+            [
+                'candidate_id' => $candidate->id,
+                'skill' => $skill,
+            ],
+            [
+                'candidate_id' => $candidate->id,
+                'skill' => $skill,
+            ]);
+    }
+
+    public function deleteSkill(Candidate $candidate, string $skill)
+    {
+        return $candidate->skills()->where('skill', $skill)->first()->delete();
+    }
 
     public function clearCache()
     {

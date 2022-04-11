@@ -38,7 +38,7 @@ class CandidateService extends MainService
 
         $candidate = $this->candidateRepo->create($data);
 
-        if ($data->get('documents')){
+        if ($data->get('documents')) {
             foreach ($data->get('documents') as $documents) {
                 $this->mediaService->uploadFile(
                     $candidate,
@@ -46,6 +46,11 @@ class CandidateService extends MainService
                     'document',
                     'documents'
                 );
+            }
+        }
+        if ($data->get('skills')) {
+            foreach ($data->get('skills') as $skill) {
+                $this->candidateRepo->createSkill($candidate, $skill);
             }
         }
 
@@ -56,7 +61,7 @@ class CandidateService extends MainService
     {
 
         $candidate = $this->candidateRepo->update($id, $data);
-        if ($data->get('documents')){
+        if ($data->get('documents')) {
             foreach ($data->get('documents') as $documents) {
                 $this->mediaService->uploadFile(
                     $candidate,
@@ -66,8 +71,22 @@ class CandidateService extends MainService
                 );
             }
         }
+
+        if ($data->get('skills')) {
+            foreach ($data->get('skills') as $skill) {
+                $this->candidateRepo->createSkill($candidate, $skill);
+            }
+        }
         return $candidate;
     }
+
+
+    public function deleteSkill(int $candidateId, string $skill)
+    {
+        $candidate = $this->get($candidateId);
+        return $this->candidateRepo->deleteSkill($candidate, $skill);
+    }
+
 
     public function clearCache()
     {

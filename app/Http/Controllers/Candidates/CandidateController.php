@@ -64,4 +64,20 @@ class CandidateController extends Controller
         }
         return $this->response(null, false, 'დაფიქსირდა შეცდომა!');
     }
+
+    public function deleteSkill(Request $request)
+    {
+
+        $this->validate($request,[
+            'skill'=>'required|exists:candidate_skills,skill',
+            'candidate_id'=>'required|exists:candidates,id',
+        ]);
+
+        $result = $this->candidateService->deleteSkill($request->candidate_id,$request->skill);
+        if ($result){
+            return $this->response(null,true,'skill წარმატებით წაიშალა!');
+        }
+        return $this->response(null, false, 'დაფიქსირდა შეცდომა!');
+
+    }
 }

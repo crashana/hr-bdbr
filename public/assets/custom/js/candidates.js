@@ -3,7 +3,7 @@ $(document).ready(function () {
     $('#candidateSkills').select2({
         multiple: true,
         placeholder: 'დაამატეთ skill-ები',
-        tags:true
+        tags: true
     });
     $('#candidatesTable').DataTable({
         processing: true,
@@ -59,18 +59,18 @@ $(document).ready(function () {
                 defaultContent: "",
                 sortable: true,
                 render: function (data) {
-                    if (data.min_salary && data.max_salary){
+                    if (data.min_salary && data.max_salary) {
                         return data.min_salary + ' - ' + data.max_salary;
                     }
-                    if (data.min_salary && !data.max_salary){
-                        return 'მინ. ' + data.min_salary ;
+                    if (data.min_salary && !data.max_salary) {
+                        return 'მინ. ' + data.min_salary;
                     }
 
-                    if (!data.min_salary && data.max_salary){
-                        return 'მაქს. ' + data.max_salary ;
+                    if (!data.min_salary && data.max_salary) {
+                        return 'მაქს. ' + data.max_salary;
                     }
 
-                    if (!data.min_salary && !data.max_salary){
+                    if (!data.min_salary && !data.max_salary) {
                         return 'არ არის მითითებული';
                     }
                 }
@@ -134,17 +134,17 @@ $(document).ready(function () {
                     let htmlTags = '';
                     var arr = [];
                     result.skills.forEach(function (skill) {
-                        $('#candidateSkills').append(`<option value="${skill.id}" selected="selected">${skill.skill}</option>`)
-                        arr.push(skill.id);
+                        $('#candidateSkills').append(`<option value="${skill.skill}" >${skill.skill}</option>`)
+                        arr.push(skill.skill);
                     })
                     $('#candidateSkills').val(arr).trigger('change');
                     if (result.linkedin_url) {
                         $('.showLink').attr('href', result.linkedin_url).show();
                     }
 
-                    if (result.documents.length){
+                    if (result.documents.length) {
                         $('#documentsDiv').show();
-                        result.documents.forEach(function (doc){
+                        result.documents.forEach(function (doc) {
                             $('#candidateUploadedDocuments').append(` <li><a href="${doc.path}/${doc.file_name}" target="_blank"> <i class="fal fa-file-pdf"></i> ${doc.name}</a></li>`)
                         })
                     }
@@ -200,10 +200,33 @@ $(document).ready(function () {
         $('#candidateSkills').html('').val(null).trigger('change')
     });
 
-  body.on('click','.add',function (e) {
-      e.preventDefault();
-      $('#candidateModal').modal('show')
-  })
+    body.on('click', '.add', function (e) {
+        e.preventDefault();
+        $('#candidateModal').modal('show')
+    })
 
+
+    $('#candidateSkills').on('select2:unselecting', function (e) {
+        if ($('#candidateAction').val() == 'edit') {
+            let skill = e.params.args.data.id;
+
+            $.ajax({
+                url: deleteSkillRoute,
+                type: "POST",
+                data: {
+                    candidate_id: $('#candidateId').val(),
+                    skill: skill
+                },
+                timeout: 600000,
+                success: function (data) {
+                    if (data.success) {
+                        $('#candidatesTable').DataTable().ajax.reload();
+                    }
+
+                }
+            });
+
+        }
+    });
 
 });

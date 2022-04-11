@@ -77,7 +77,8 @@
     <script>
         let datatableRoute = '{{route('candidate.datatable')}}';
         let getRoute = '{{route('candidate.get')}}';
-        let storeRoute  = '{{route('candidate.store')}}'
+        let storeRoute  = '{{route('candidate.store')}}';
+        let deleteSkillRoute = '{{route('candidate.deleteSkill')}}';
 
 
     </script>

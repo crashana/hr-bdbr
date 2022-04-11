@@ -35,4 +35,8 @@ Route::group([
     Route::post('/store', [
         'uses' => 'CandidateController@store',
         'as' => 'store']);
+
+    Route::post('/deleteSkill', [
+        'uses' => 'CandidateController@deleteSkill',
+        'as' => 'deleteSkill']);
 });

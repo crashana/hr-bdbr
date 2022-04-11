@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Candidates;
 
+use App\Models\Candidate\CandidateSkill;
 use App\Models\Candidate\CandidateStatus;
 use App\Traits\CacheableRepository;
 use App\Models\Candidate\Candidate;
@@ -51,7 +52,7 @@ class CandidateCacheRepo implements CandidateRepoInterface
         $this->clearCache();
         $status = new ParameterBag([
             'status' => 'Initial',
-            'is_current'=>true
+            'is_current' => true
         ]);
         $candidate = $this->candidateRepo->create($data);
         $this->createStatus($candidate, $status);
@@ -66,7 +67,24 @@ class CandidateCacheRepo implements CandidateRepoInterface
 
     public function createStatus(Candidate $candidate, ParameterBag $data): CandidateStatus
     {
-        return $this->candidateRepo->createStatus($candidate, $data);
+
+        $status = $this->candidateRepo->createStatus($candidate, $data);
+        $this->clearCache();
+        return $status;
+    }
+
+    public function createSkill(Candidate $candidate, string $skill): CandidateSkill
+    {
+        $skill = $this->candidateRepo->createSkill($candidate, $skill);
+        $this->clearCache();
+        return $skill;
+    }
+
+    public function deleteSkill(Candidate $candidate, string $skill)
+    {
+        $skill = $this->candidateRepo->deleteSkill($candidate, $skill);
+        $this->clearCache();
+        return $skill;
     }
 
     public function clearCache()
