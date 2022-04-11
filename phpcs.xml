@@ -9,6 +9,7 @@
     <file>tests</file>
 
     <exclude-pattern>*/migrations/*</exclude-pattern>
+    <exclude-pattern>*/tests/*</exclude-pattern>
     <exclude-pattern>*/seeds/*</exclude-pattern>
     <exclude-pattern>*.blade.php</exclude-pattern>
     <exclude-pattern>*.js</exclude-pattern>
