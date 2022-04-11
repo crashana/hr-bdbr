@@ -19,7 +19,8 @@ class CandidateController extends Controller
 
     public function index()
     {
-        return view('Pages.candidates');
+        $statuses = $this->candidateService->getStatuses();
+        return view('Pages.candidates', compact('statuses'));
     }
 
     public function datatable(Request $request)
@@ -68,16 +69,37 @@ class CandidateController extends Controller
     public function deleteSkill(Request $request)
     {
 
-        $this->validate($request,[
-            'skill'=>'required|exists:candidate_skills,skill',
-            'candidate_id'=>'required|exists:candidates,id',
+        $this->validate($request, [
+            'skill' => 'required|exists:candidate_skills,skill',
+            'candidate_id' => 'required|exists:candidates,id',
         ]);
 
-        $result = $this->candidateService->deleteSkill($request->candidate_id,$request->skill);
-        if ($result){
-            return $this->response(null,true,'skill წარმატებით წაიშალა!');
+        $result = $this->candidateService->deleteSkill($request->candidate_id, $request->skill);
+        if ($result) {
+            return $this->response(null, true, 'skill წარმატებით წაიშალა!');
         }
         return $this->response(null, false, 'დაფიქსირდა შეცდომა!');
 
+    }
+
+    public function changeStatus(Request $request)
+    {
+        $this->validate($request, [
+            'candidate_id' => 'required|exists:candidates,id',
+            'status' => 'required|string',
+            'comment' => 'required|string',
+        ]);
+
+        $candidate = $this->candidateService->get($request->candidate_id);
+
+        if ($candidate->current_status == $request->status){
+            return $this->response(null, false, 'სტატუსის ცვლილება შეუძლებელია!');
+        }
+
+        $result = $this->candidateService->createStatus($candidate, $request->status, $request->comment);
+        if ($result) {
+            return $this->response($result, true, 'სტატუსი წარმატებით შეიცვალა!');
+        }
+        return $this->response(null, false, 'დაფიქსირდა შეცდომა!');
     }
 }

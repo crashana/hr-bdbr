@@ -24,5 +24,7 @@ interface CandidateRepoInterface
 
     public function deleteSkill(Candidate $candidate, string $skill);
 
+    public function getStatuses();
+
     public function clearCache();
 }

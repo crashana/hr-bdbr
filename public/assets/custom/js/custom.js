@@ -14,7 +14,12 @@ $(document).on({
     ajaxSuccess: function (o, e) {
         let ajaxResp = e.responseJSON;
         if (ajaxResp.msg) {
-            toastr.success(ajaxResp.msg)
+            if (ajaxResp.error){
+                toastr.error(ajaxResp.msg)
+            }else{
+                toastr.success(ajaxResp.msg)
+            }
+
         }
     },
     ajaxError: function myErrorHandler(event, xhr) {

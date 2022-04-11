@@ -87,6 +87,15 @@ class CandidateCacheRepo implements CandidateRepoInterface
         return $skill;
     }
 
+    public function getStatuses()
+    {
+        return $this->rememberForever('statuses',
+            ['allStatus'],
+            function () {
+                return $this->candidateRepo->getStatuses();
+            });
+    }
+
     public function clearCache()
     {
         $this->clearCacheByTags([

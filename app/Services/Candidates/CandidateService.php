@@ -88,6 +88,22 @@ class CandidateService extends MainService
     }
 
 
+    public function getStatuses()
+    {
+        return $this->candidateRepo->getStatuses();
+    }
+
+
+    public function createStatus($candidate, string $status, string $comment)
+    {
+        $data = new ParameterBag([
+            'is_current' => true,
+            'status' => $status,
+            'comment' => $comment,
+        ]);
+        return $this->candidateRepo->createStatus($candidate, $data);
+    }
+
     public function clearCache()
     {
         $this->candidateRepo->clearCache();

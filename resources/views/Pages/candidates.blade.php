@@ -2,6 +2,19 @@
 
 @section('header')
     <title> -  </title>
+
+
+    <style>
+
+        .statusDate{
+            font-size: 10px;
+        }
+        .statusInfo{
+            border-bottom: 1px solid #00000017;
+        }
+
+
+    </style>
 @stop
 
 
@@ -79,6 +92,7 @@
         let getRoute = '{{route('candidate.get')}}';
         let storeRoute  = '{{route('candidate.store')}}';
         let deleteSkillRoute = '{{route('candidate.deleteSkill')}}';
+        let changeStatusRoute = '{{route('candidate.changeStatus')}}';
 
 
     </script>

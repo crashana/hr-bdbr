@@ -124,6 +124,11 @@ class CandidateRepo implements CandidateRepoInterface
         return $candidate->skills()->where('skill', $skill)->first()->delete();
     }
 
+    public function getStatuses()
+    {
+       return CandidateStatus::STATUSES;
+    }
+
     public function clearCache()
     {
         return null;

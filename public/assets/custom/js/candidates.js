@@ -5,6 +5,12 @@ $(document).ready(function () {
         placeholder: 'დაამატეთ skill-ები',
         tags: true
     });
+
+    $('#changeStatus').select2({
+        placeholder: 'აირჩიეთ სტატუსი',
+        tags: false
+    }).val('Initial').trigger('change');
+
     $('#candidatesTable').DataTable({
         processing: true,
         serverSide: true,
@@ -128,8 +134,9 @@ $(document).ready(function () {
                     $('#candidateMinSalary').val(result.min_salary)
                     $('#candidateMaxSalary').val(result.max_salary)
                     $('#candidateLinkedIn').val(result.linkedin_url)
-
+                    $('#candidateFullName').html(`კანდიდატი: ${result.first_name} ${result.last_name} `)
                     $('.showLink').attr('href', '').hide();
+
 
                     let htmlTags = '';
                     var arr = [];
@@ -148,6 +155,25 @@ $(document).ready(function () {
                             $('#candidateUploadedDocuments').append(` <li><a href="${doc.path}/${doc.file_name}" target="_blank"> <i class="fal fa-file-pdf"></i> ${doc.name}</a></li>`)
                         })
                     }
+
+                    result.statuses.forEach(function (status) {
+                        let comment = '';
+                        if (status.comment) {
+                            comment = status.comment;
+                        }
+                        $('#statusHistory').append(` <div class="col-md-12 statusInfo">
+                                <a class="d-block fw-700 text-dark">${status.status} </a>
+                                <i class="statusDate">${status.created}</i>
+                                <p>${comment}</p>
+                            </div>`)
+                    })
+
+
+                    $('#currentStatusBtn').html(result.current_status)
+                    $('#changeCandidateId').val(result.id);
+                    $('#changeStatus').val(result.current_status).trigger('change')
+                    $('#changeStatusDiv').show();
+
                 }
             }
 
@@ -197,7 +223,13 @@ $(document).ready(function () {
         $('#documentsDiv').hide();
         $('#candidateUploadedDocuments').html('');
 
+        $('#candidateFullName').html('ახალი კანდიდატის დამატება')
+
         $('#candidateSkills').html('').val(null).trigger('change')
+        $('#statusHistory').html('')
+        $('#currentStatusBtn').html('Initial')
+        $('#changeStatus').val('Initial').trigger('change')
+        $('#changeStatusDiv').hide();
     });
 
     body.on('click', '.add', function (e) {
@@ -228,5 +260,47 @@ $(document).ready(function () {
 
         }
     });
+
+
+
+
+    var changeStatusForm = $("#changeStatusForm");
+    if (changeStatusForm.length > 0) {
+        changeStatusForm.validate({
+            ignore: ".ui-tabs-hide :input",
+            submitHandler: function (form) {
+                var form = changeStatusForm[0];
+                var data = new FormData(form);
+                $.ajax({
+                    url: changeStatusRoute,
+                    type: "POST",
+                    enctype: 'multipart/form-data',
+                    data: data,
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    timeout: 600000,
+                    success: function (data) {
+                        if (data.success) {
+                            let result = data.result
+                            let comment = '';
+                            if (result.comment) {
+                                comment = result.comment;
+                            }
+                            $('#statusHistory').prepend(` <div class="col-md-12 statusInfo">
+                                <a class="d-block fw-700 text-dark">${result.status} </a>
+                                <i class="statusDate">${result.created}</i>
+                                <p>${comment}</p>
+                            </div>`)
+
+                            $('#candidatesTable').DataTable().ajax.reload();
+                        }
+
+                    }
+                });
+
+            }
+        })
+    }
 
 });
